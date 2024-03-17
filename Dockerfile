@@ -1,15 +1,21 @@
-FROM debian:trixie-slim
+FROM kasmweb/core-ubuntu-jammy:1.15.0
 
 ARG DEBCONF_NOWARNINGS "yes"
 ARG DEBIAN_FRONTEND "noninteractive"
 ARG DEBCONF_NONINTERACTIVE_SEEN "true"
+
+ENV HOME /home/kasm-default-profile
+ENV STARTUPDIR /dockerstartup
+ENV INST_SCRIPTS $STARTUPDIR/install
+WORKDIR $HOME
+
+USER root
 
 RUN apt-get update \
     && apt-get --no-install-recommends -y install \
         tini \
         wget \
         ovmf \
-        nginx \
         swtpm \
         procps \
         iptables \
@@ -21,32 +27,42 @@ RUN apt-get update \
         ca-certificates \
         netcat-openbsd \
         qemu-system-x86 \
+        qemu-system-gui \
     && apt-get clean \
-    && novnc="1.4.0" \
-    && mkdir -p /usr/share/novnc \
-    && wget https://github.com/novnc/noVNC/archive/refs/tags/v"$novnc".tar.gz -O /tmp/novnc.tar.gz -q \
-    && tar -xf /tmp/novnc.tar.gz -C /tmp/ \
-    && cd /tmp/noVNC-"$novnc" \
-    && mv app core vendor package.json *.html /usr/share/novnc \
-    && unlink /etc/nginx/sites-enabled/default \
-    && sed -i 's/^worker_processes.*/worker_processes 1;/' /etc/nginx/nginx.conf \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY ./src /run/
 COPY ./web /var/www/
 
 RUN chmod +x /run/*.sh
-RUN mv /var/www/nginx.conf /etc/nginx/sites-enabled/web.conf
 
 VOLUME /storage
-EXPOSE 22 5900 8006
 
 ENV CPU_CORES "1"
-ENV RAM_SIZE "1G"
-ENV DISK_SIZE "16G"
-ENV BOOT "http://example.com/image.iso"
+ENV RAM_SIZE "4G"
+ENV DISK_SIZE "32G"
+ENV BOOT "https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-desktop-amd64.iso"
 
 ARG VERSION_ARG "0.0"
 RUN echo "$VERSION_ARG" > /run/version
 
-ENTRYPOINT ["/usr/bin/tini", "-s", "/run/entry.sh"]
+RUN echo "/usr/bin/desktop_ready && /usr/bin/tini -s /run/entry.sh" > $STARTUPDIR/custom_startup.sh \
+&& chmod +x $STARTUPDIR/custom_startup.sh
+
+# Update the desktop environment to be optimized for a single application
+RUN cp $HOME/.config/xfce4/xfconf/single-application-xfce-perchannel-xml/* $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+#RUN cp /usr/share/backgrounds/bg_kasm.png /usr/share/backgrounds/bg_default.png
+#RUN apt-get remove -y xfce4-panel
+
+ENV QEMUDISPLAY "gtk,full-screen=on"
+
+RUN chown 1000:0 $HOME
+RUN $STARTUPDIR/set_user_permission.sh $HOME
+
+ENV HOME /home/kasm-user
+WORKDIR $HOME
+RUN mkdir -p $HOME && chown -R 1000:0 $HOME
+
+#USER 1000
+
+

@@ -5,9 +5,9 @@ set -Eeuo pipefail
 
 : "${GPU:="N"}"         # GPU passthrough
 : "${VGA:="virtio"}"    # VGA adaptor
-: "${DISPLAY:="web"}"   # Display type
+: "${QEMUDISPLAY:="web"}"   # Display type
 
-case "${DISPLAY,,}" in
+case "${QEMUDISPLAY,,}" in
   vnc)
     DISPLAY_OPTS="-display vnc=:0 -vga $VGA"
     ;;
@@ -21,7 +21,7 @@ case "${DISPLAY,,}" in
     DISPLAY_OPTS="-display none -vga none"
     ;;
   *)
-    DISPLAY_OPTS="-display $DISPLAY -vga $VGA"
+    DISPLAY_OPTS="-display $QEMUDISPLAY -vga $VGA"
     ;;
 esac
 
@@ -33,8 +33,8 @@ fi
 DISPLAY_OPTS="-display egl-headless,rendernode=/dev/dri/renderD128"
 DISPLAY_OPTS="$DISPLAY_OPTS -device $VGA"
 
-[[ "${DISPLAY,,}" == "vnc" ]] && DISPLAY_OPTS="$DISPLAY_OPTS -vnc :0"
-[[ "${DISPLAY,,}" == "web" ]] && DISPLAY_OPTS="$DISPLAY_OPTS -vnc :0,websocket=5700"
+[[ "${QEMUDISPLAY,,}" == "vnc" ]] && DISPLAY_OPTS="$DISPLAY_OPTS -vnc :0"
+[[ "${QEMUDISPLAY,,}" == "web" ]] && DISPLAY_OPTS="$DISPLAY_OPTS -vnc :0,websocket=5700"
 
 [ ! -d /dev/dri ] && mkdir -m 755 /dev/dri
 

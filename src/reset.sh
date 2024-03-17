@@ -163,7 +163,7 @@ addPackage() {
 
 # Start webserver
 cp -r /var/www/* /run/shm
-html "Starting $APP for Docker..."
-nginx -e stderr
+#html "Starting $APP for Docker..."
+#nginx -e stderr
 
 return 0
