@@ -2,7 +2,10 @@
 <h2>Installation in KASM</h2>
 <ul>
 <li>Build image and use a custom-repo</li>
-<li><strong>Docker Run Config Override:</strong><i>{
+<li><strong>Docker Run Config Override:</strong><i>
+
+```json
+{
   "hostname": "kasm",
   "user": "root",
   "privileged": true,
@@ -12,9 +15,29 @@
         "DISK_SIZE": "16G",
         "BOOT" : "https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-virt-3.19.1-x86_64.iso"
     }
-}</i><br><strong>MAKE SURE THAT CPU_CORES AND RAM_SIZE DO NOT EXCEED THE WORKSPACELIMITS!</strong></li>
+}
+```
+</i><br><strong>MAKE SURE THAT CPU_CORES AND RAM_SIZE DO NOT EXCEED THE WORKSPACELIMITS!</strong></li>
 </ul>
+<strong>Recommendations:</strong>
+<ul>
+<li><strong>Pre-download your bootimage: </strong> Predownload your bootimage on your host, rename it to boot.iso and link it to the workspace via 
 
+```json
+{
+  "/mnt/path-to-your-directory": {
+    "bind": "/storage",
+    "mode": "rw",
+    "uid": 1000,
+    "gid": 1000,
+    "required": true,
+    "skip_check": false
+  }
+}
+```
+be advised: The image stores also it's disk at that location, so you will have your virtual harddrive up there!</li>
+</ul>
+<h1>Original-Docs:</h1>
 <h1 align="center">QEMU<br />
 <div align="center"><a href="https://github.com/qemus/qemu-docker"><img src="https://github.com/qemus/qemu-docker/raw/master/.github/logo.png" title="Logo" style="max-width:100%;" width="128" /></a>
 </div>
