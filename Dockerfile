@@ -28,6 +28,8 @@ RUN apt-get update \
         netcat-openbsd \
         qemu-system-x86 \
         qemu-system-gui \
+        sudo \
+        mpg123 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -35,19 +37,23 @@ COPY ./src /run/
 COPY ./web /var/www/
 
 RUN chmod +x /run/*.sh
+#RUN echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers <-- not needed now... Will be relevant later maybe, when container does not need root
 
+RUN mkdir /storage
 VOLUME /storage
+RUN chown -R 1000:1000 /storage
 
-ENV CPU_CORES "1"
-ENV RAM_SIZE "1G"
-ENV DISK_SIZE "16G"
-ENV BOOT "https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-virt-3.19.1-x86_64.iso"
+ENV CPU_CORES="1"
+ENV RAM_SIZE="4G"
+ENV DISK_SIZE="16G"
+ENV BOOT="https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-virt-3.19.1-x86_64.iso"
 
 ARG VERSION_ARG="0.0"
 RUN echo "$VERSION_ARG" > /run/version
 
-RUN echo "/usr/bin/desktop_ready && /usr/bin/tini -s /run/entry.sh" > $STARTUPDIR/custom_startup.sh \
-&& chmod +x $STARTUPDIR/custom_startup.sh
+#sleep 10 is that the desktop is ready and it REALLY goes into the KasmVNC - otherwise the output might land inside the docker-console
+#RUN echo "/usr/bin/desktop_ready && sleep 10 && /usr/bin/tini -s /run/entry.sh" > $STARTUPDIR/custom_startup.sh \
+#&& chmod +x $STARTUPDIR/custom_startup.sh
 
 # Update the desktop environment to be optimized for a single application
 RUN cp $HOME/.config/xfce4/xfconf/single-application-xfce-perchannel-xml/* $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
@@ -64,5 +70,3 @@ WORKDIR $HOME
 RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 
 USER 1000
-
-

@@ -5,8 +5,14 @@
 <li><strong>Docker Run Config Override:</strong><i>{
   "hostname": "kasm",
   "user": "root",
-  "privileged": true
-}</i></li>
+  "privileged": true,
+  "environment": {
+        "CPU_CORES": 1,
+        "RAM_SIZE" : "4G",
+        "DISK_SIZE": "16G",
+        "BOOT" : "https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-virt-3.19.1-x86_64.iso"
+    }
+}</i><br><strong>MAKE SURE THAT CPU_CORES AND RAM_SIZE DO NOT EXCEED THE WORKSPACELIMITS!</strong></li>
 </ul>
 
 <h1 align="center">QEMU<br />
