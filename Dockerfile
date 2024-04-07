@@ -51,9 +51,8 @@ ENV BOOT="https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-vir
 ARG VERSION_ARG="0.0"
 RUN echo "$VERSION_ARG" > /run/version
 
-#sleep 10 is that the desktop is ready and it REALLY goes into the KasmVNC - otherwise the output might land inside the docker-console
-#RUN echo "/usr/bin/desktop_ready && sleep 10 && /usr/bin/tini -s /run/entry.sh" > $STARTUPDIR/custom_startup.sh \
-#&& chmod +x $STARTUPDIR/custom_startup.sh
+#COPY /custom_startup.sh $STARTUPDIR/custom_startup.sh
+COPY /custom_startup.sh /root/start.sh
 
 # Update the desktop environment to be optimized for a single application
 RUN cp $HOME/.config/xfce4/xfconf/single-application-xfce-perchannel-xml/* $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
