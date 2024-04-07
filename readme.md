@@ -37,6 +37,11 @@
 ```
 be advised: The image stores also it's disk at that location, so you will have your virtual harddrive up there!</li>
 </ul>
+<strong>Bugs and quirks</strong>
+<ul>
+<li>Right now - when you start the container, it takes a while for the VM to start. I've included a sleep 10-command to let it wait a bit, cause I've experienced problems without it.</li>
+<li>I have to figure out how to boot directly from the disk after installing the VM-System...</li>
+</ul>
 <h1>Original-Docs:</h1>
 <h1 align="center">QEMU<br />
 <div align="center"><a href="https://github.com/qemus/qemu-docker"><img src="https://github.com/qemus/qemu-docker/raw/master/.github/logo.png" title="Logo" style="max-width:100%;" width="128" /></a>
