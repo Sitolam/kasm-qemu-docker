@@ -1,8 +1,8 @@
 FROM kasmweb/core-ubuntu-jammy:1.15.0
 
-ARG DEBCONF_NOWARNINGS "yes"
-ARG DEBIAN_FRONTEND "noninteractive"
-ARG DEBCONF_NONINTERACTIVE_SEEN "true"
+ARG DEBCONF_NOWARNINGS="yes"
+ARG DEBIAN_FRONTEND="noninteractive"
+ARG DEBCONF_NONINTERACTIVE_SEEN="true"
 
 ENV HOME /home/kasm-default-profile
 ENV STARTUPDIR /dockerstartup
@@ -39,11 +39,11 @@ RUN chmod +x /run/*.sh
 VOLUME /storage
 
 ENV CPU_CORES "1"
-ENV RAM_SIZE "4G"
-ENV DISK_SIZE "32G"
-ENV BOOT "https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-desktop-amd64.iso"
+ENV RAM_SIZE "1G"
+ENV DISK_SIZE "16G"
+ENV BOOT "https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-virt-3.19.1-x86_64.iso"
 
-ARG VERSION_ARG "0.0"
+ARG VERSION_ARG="0.0"
 RUN echo "$VERSION_ARG" > /run/version
 
 RUN echo "/usr/bin/desktop_ready && /usr/bin/tini -s /run/entry.sh" > $STARTUPDIR/custom_startup.sh \
@@ -63,6 +63,6 @@ ENV HOME /home/kasm-user
 WORKDIR $HOME
 RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 
-#USER 1000
+USER 1000
 
 

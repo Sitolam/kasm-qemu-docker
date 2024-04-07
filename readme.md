@@ -1,3 +1,14 @@
+<h1>Custom Notes</h1>
+<h2>Installation in KASM</h2>
+<ul>
+<li>Build image and use a custom-repo</li>
+<li><strong>Docker Run Config Override:</strong><i>{
+  "hostname": "kasm",
+  "user": "root",
+  "privileged": true
+}</i></li>
+</ul>
+
 <h1 align="center">QEMU<br />
 <div align="center"><a href="https://github.com/qemus/qemu-docker"><img src="https://github.com/qemus/qemu-docker/raw/master/.github/logo.png" title="Logo" style="max-width:100%;" width="128" /></a>
 </div>
