@@ -39,7 +39,8 @@ be advised: The image stores also it's disk at that location, so you will have y
 </ul>
 <strong>Bugs and quirks</strong>
 <ul>
-<li>Right now - when you start the container, it takes a while for the VM to start. I've included a sleep 10-command to let it wait a bit, cause I've experienced problems without it.</li>
+<li>You have to start a Terminal after container startup and run `/usr/bin/tini -s /run/entry.sh` otherwise the sound won't work...</li>
+<li>Right now - when you start the container, it takes a while for the VM to start. I've included a sleep 10-command to let it wait a bit, cause I've experienced problems without it. (on autostart - needs figuring out of the sound-problem first)</li>
 <li>I have to figure out how to boot directly from the disk after installing the VM-System...</li>
 </ul>
 <h1>Original-Docs:</h1>
