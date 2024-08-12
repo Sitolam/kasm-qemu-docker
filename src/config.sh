@@ -17,7 +17,7 @@ DEV_OPTS="$DEV_OPTS -object rng-random,id=objrng0,filename=/dev/urandom"
 DEV_OPTS="$DEV_OPTS -device virtio-rng-pci,rng=objrng0,id=rng0,bus=pcie.0,addr=0x1c"
 AUDIO_OPTS="-audiodev pa,id=sound1,server=/run/pulse/native -device AC97,audiodev=sound1"
 
-ARGS="$DEF_OPTS $CPU_OPTS $RAM_OPTS $MAC_OPTS $DISPLAY_OPTS $MON_OPTS $SERIAL_OPTS $USB_OPTS $DISK_OPTS $BOOT_OPTS $DEV_OPTS $AUDIO_OPTS $ARGUMENTS"
+ARGS="$DEF_OPTS $CPU_OPTS $RAM_OPTS $MAC_OPTS $DISPLAY_OPTS $MON_OPTS $SERIAL_OPTS $USB_OPTS $NET_OPTS $DISK_OPTS $BOOT_OPTS $DEV_OPTS $AUDIO_OPTS $ARGUMENTS"
 ARGS=$(echo "$ARGS" | sed 's/\t/ /g' | tr -s ' ')
 
 if [[ "${DISPLAY,,}" == "web" ]]; then
