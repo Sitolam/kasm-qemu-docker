@@ -20,4 +20,4 @@ trap - ERR
 info "Booting image using $VERS..."
 
 [[ "$DEBUG" == [Yy1]* ]] && set -x
-exec qemu-system-x86_64 ${ARGS:+ $ARGS} -nic user,hostfwd=tcp::8888-:22
+exec qemu-system-x86_64 ${ARGS:+ $ARGS}
