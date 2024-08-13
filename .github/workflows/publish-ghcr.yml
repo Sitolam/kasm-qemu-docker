@@ -11,7 +11,7 @@ jobs:
       - name: Build and push the image
         run: |
           docker login --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
-          docker build . --tag ghcr.io/${{ github.repository }}:$(git rev-parse --abbrev-ref HEAD)
+          #docker build . --tag ghcr.io/${{ github.repository }}:$(git rev-parse --abbrev-ref HEAD)
           docker build . --tag ghcr.io/${{ github.repository }}:latest
-          docker push ghcr.io/${{ github.repository }}:$(git rev-parse --abbrev-ref HEAD)
+          #docker push ghcr.io/${{ github.repository }}:$(git rev-parse --abbrev-ref HEAD)
           docker push ghcr.io/${{ github.repository }}:latest
